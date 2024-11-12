@@ -95,14 +95,11 @@
   }
 
   function swipeEndHandler(e) {
-    console.log(e)
     endPosX = e instanceof MouseEvent
       ? endPosX = e.pageX // MouseEvent
       : e.changedTouches[0].pageX //TouchEvent
     if (endPosX - startPosX > 100) prevHandler()
     if (endPosX - startPosX < -100) nextHandler()
-
-    console.log('swipeEndHandler', startPosX, endPosX);
   }
 
   function initListenners() {
@@ -115,8 +112,8 @@
     carousel.addEventListener('mousedown', swipeStartHandler)
     carousel.addEventListener('touchend', swipeEndHandler)
     carousel.addEventListener('mouseup', swipeEndHandler)
-    carousel.addEventListener('dragstart', swipeEndHandler)
-    carousel.addEventListener('dragend', swipeEndHandler)
+    // carousel.addEventListener('dragstart', swipeStartHandler)
+    //  carousel.addEventListener('dragend', swipeEndHandler)
   }
 
   function sliderAutoPlay() {
