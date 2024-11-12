@@ -10,10 +10,13 @@
   overflow: hidden;
 }
 
-.carousel-slides {
+.carousel-container {
   position: relative;
   list-style-type: none;
   user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
   height: 100%;
 }
 
@@ -26,6 +29,10 @@
   opacity: 0;
   z-index: -999;
   transition: all 0.5s ease-in-out;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
 }
 .slide.active {
   opacity: 1;
