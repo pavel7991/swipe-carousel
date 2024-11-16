@@ -2,32 +2,37 @@ class Carousel {
   constructor(params) {
     const settings = this._initConfig(params)
 
-    this.container = document.querySelector(settings.container)
-    this.slides = this.container.querySelectorAll(settings.slideClass)
+    this.nameID = settings.containerID.slice(1)
+    this.containerID = document.querySelector(settings.containerID)
+    this.slides = this.containerID.querySelectorAll(settings.slideClass)
     this.INTERVAL = settings.interval
     this.isPlaying = settings.autoplay
     this.dotsPanel = settings.dotsPanel
     this.showBtnPlay = settings.showBtnPlay
+    this.isHovered = false
   }
 
   _initConfig(objWithInnerParams) {
     const defaultSettings = {
-      container: '#carousel',
+      containerID: '#my-carousel',
       slideClass: '.slide',
       interval: 2000,
       autoplay: true,
       dotsPanel: true,
       showBtnPlay: true,
     }
-    // resultObj.container = objWithInnerParams.container || defaultSettings.container
+    // resultObj.containerID = objWithInnerParams.containerID || defaultSettings.containerID
     // resultObj.slideClass = objWithInnerParams.slideClass || defaultSettings.slideClass
     // resultObj.interval = objWithInnerParams.interval || defaultSettings.interval
     return { ...defaultSettings, ...objWithInnerParams }
   }
 
+  _prefixedID(prefix) {
+    return `${prefix}-${this.nameID}`
+  }
+
   _initProps() {
     this.currentSlide = 0
-
     this.SLIDES_COUNT = this.slides.length
 
     this.CODE_ARROW_LEFT = 'ArrowLeft'
@@ -42,26 +47,33 @@ class Carousel {
 
   _initControls() {
     const controls = document.createElement('div')
-    const PAUSE = this.showBtnPlay ? `<div id="pause-play-btn" class="pause-btn">
+
+    const ID_PREV = this._prefixedID('prev-btn')
+    const ID_NEXT = this._prefixedID('next-btn')
+    const ID_PAUSE = this._prefixedID('pause-play-btn')
+
+    const PAUSE = this.showBtnPlay ? `<div id="${ID_PAUSE}" class="pause-btn">
         ${this.isPlaying ? this.ICON_PAUSE : this.ICON_PLAY}
       </div>` : ``;
-    const PREV = `<div id="prev-btn" class="next-prev-btn">${this.ICON_PREV}</div>`
-    const NEXT = `<div id="next-btn" class="next-prev-btn">${this.ICON_NEXT}</div>`
+    const PREV = `<div id="${ID_PREV}" class="next-prev-btn">${this.ICON_PREV}</div>`
+    const NEXT = `<div id="${ID_NEXT}" class="next-prev-btn">${this.ICON_NEXT}</div>`
+
 
     controls.innerHTML = PREV + PAUSE + NEXT
-    controls.setAttribute('id', 'carousel-controls')
+    controls.setAttribute('id', this._prefixedID('carousel-controls'))
     controls.setAttribute('class', 'carousel-controls')
-    this.container.appendChild(controls)
+    this.containerID.appendChild(controls)
 
-    this.nextBtn = this.container.querySelector('#next-btn')
-    this.prevBtn = this.container.querySelector('#prev-btn')
-    this.showBtnPlay && (this.pausePlayBtn = this.container.querySelector('#pause-play-btn'))
+    this.nextBtn = this.containerID.querySelector(`#${ID_NEXT}`)
+    this.prevBtn = this.containerID.querySelector(`#${ID_PREV}`);
+    this.showBtnPlay && (this.pausePlayBtn = this.containerID.querySelector(`#${ID_PAUSE}`))
   }
 
   _initDots() {
     if (!this.dotsPanel) return
     const dotsPanel = document.createElement('ul')
-    dotsPanel.setAttribute('id', 'carousel-dots')
+    const ID_DOTS_PANEL = this._prefixedID('carousel-dots')
+    dotsPanel.setAttribute('id', ID_DOTS_PANEL)
     dotsPanel.setAttribute('class', 'carousel-dots')
 
     for (let i = 0; i < this.SLIDES_COUNT; i++) {
@@ -70,8 +82,8 @@ class Carousel {
       dot.dataset.slideTo = `${i}`
       dotsPanel.append(dot)
     }
-    this.container.append(dotsPanel)
-    this.carouselDots = this.container.querySelector('#carousel-dots')
+    this.containerID.append(dotsPanel)
+    this.carouselDots = this.containerID.querySelector(`#${ID_DOTS_PANEL}`)
     this.dots = this.carouselDots.querySelectorAll('.dot')
   }
 
@@ -130,12 +142,11 @@ class Carousel {
 
   _pressKey(e) {
     const { code } = e
+    e.preventDefault()
+    if (!this.isHovered) return
     if (code === this.CODE_ARROW_RIGHT) this.next()
     if (code === this.CODE_ARROW_LEFT) this.prev()
-    if (code === this.CODE_SPACE) {
-      e.preventDefault()
-      this.pausePlay()
-    }
+    if (code === this.CODE_SPACE) this.pausePlay()
   }
 
   _initListenners() {
@@ -144,6 +155,9 @@ class Carousel {
     this.showBtnPlay && this.pausePlayBtn.addEventListener('click', this.pausePlay.bind(this))
     document.addEventListener('keydown', this._pressKey.bind(this))
     this.dotsPanel && this.carouselDots.addEventListener('click', this._dots.bind(this))
+
+    this.containerID.addEventListener('mouseenter', () => this.isHovered = true)
+    this.containerID.addEventListener('mouseleave', () => this.isHovered = false)
   }
 
   _sliderAutoPlay() {

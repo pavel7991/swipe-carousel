@@ -8,19 +8,51 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="carousel/carousel.css">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div id="my-carousel" class="carousel">
-    <div id="carousel-container" class="carousel-container">
-      <div class="slide active"><img src="img/nature1.jpg"></div>
-      <div class="slide"><img src="img/nature2.jpg"></div>
-      <div class="slide"><img src="img/nature3.jpg"></div>
-      <div class="slide"><img src="img/nature4.jpg"></div>
-      <div class="slide"><img src="img/nature5.jpg"></div>
+  <div class="container">
+    <h1>SwipeCarousel</h1>
+
+    <hr>
+    <h3>Default settings</h3>
+
+    <div id="my-carousel" class="carousel">
+      <div class="carousel-container">
+        <div class="slide active"><img src="img/nature1.jpg"></div>
+        <div class="slide"><img src="img/nature2.jpg"></div>
+        <div class="slide"><img src="img/nature3.jpg"></div>
+        <div class="slide"><img src="img/nature4.jpg"></div>
+        <div class="slide"><img src="img/nature5.jpg"></div>
+      </div>
     </div>
-  </div>
+
+    <hr>
+    <h3>{containerID: '#my-carousel-2', slideClass: '.slide', interval: 5000, autoplay: false, showBtnPlay: false}</h3>
+    <div id="my-carousel-2" class="carousel">
+      <div class="carousel-container">
+        <div class="slide active"><img src="img/nature2.jpg"></div>
+        <div class="slide"><img src="img/nature1.jpg"></div>
+        <div class="slide"><img src="img/nature5.jpg"></div>
+        <div class="slide"><img src="img/nature4.jpg"></div>
+        <div class="slide"><img src="img/nature3.jpg"></div>
+      </div>
+    </div>
+
+    <hr>
+    <h3>{containerID: '#my-carousel-3', slideClass: '.slide', dotsPanel: false,}</h3>
+    <div id="my-carousel-3" class="carousel">
+      <div class="carousel-container">
+        <div class="slide active"><img src="img/nature5.jpg"></div>
+        <div class="slide"><img src="img/nature4.jpg"></div>
+        <div class="slide"><img src="img/nature3.jpg"></div>
+        <div class="slide"><img src="img/nature2.jpg"></div </div>
+      </div>
+    </div>
+
+
 </body>
 
 <script src="index.js" type="module"></script>

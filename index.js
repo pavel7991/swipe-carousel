@@ -1,12 +1,26 @@
 import SwipeCarousel from './carousel/swipe-carousel.js'
 
 const carousel = new SwipeCarousel({
-  container: '#my-carousel',
+  containerID: '#my-carousel',
   slideClass: '.slide',
-  interval: 2000,
+})
+
+const carousel2 = new SwipeCarousel({
+  containerID: '#my-carousel-2',
+  slideClass: '.slide',
+  interval: 5000,
   autoplay: false,
-  dotsPanel: true,
   showBtnPlay: false,
 })
 
+const carousel3 = new SwipeCarousel({
+  containerID: '#my-carousel-3',
+  slideClass: '.slide',
+  dotsPanel: false,
+})
+
+
+
 carousel.init()
+carousel2.init()
+carousel3.init()
