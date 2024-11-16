@@ -4,38 +4,67 @@ function Carousel(containerId = 'carousel', slideClass = '.slide', interval = 20
   this.INTERVAL = interval
 }
 
-
 Carousel.prototype = {
   _initProps() {
     this.currentSlide = 0
     this.isPlaying = true
+    this.SLIDES_COUNT = this.slides.length
 
-    // carousel-controls
-    this.nextBtn = this.container.querySelector('#next-btn')
-    this.prevBtn = this.container.querySelector('#prev-btn')
-    this.pausePlayBtn = this.container.querySelector('#pause-play-btn')
-
-    //carousel-dots
-    this.carouselDots = this.container.querySelector('#carousel-dots')
-    this.dots = this.carouselDots.querySelectorAll('.dot')
-
-    // code keyboard
     this.CODE_ARROW_LEFT = 'ArrowLeft'
     this.CODE_ARROW_RIGHT = 'ArrowRight'
     this.CODE_SPACE = 'Space'
 
-    // icons
     this.ICON_PAUSE = '<i class="fa-solid fa-pause"></i>'
     this.ICON_PLAY = '<i class="fa-solid fa-play"></i>'
+  },
+
+  _initControls() {
+    const controls = document.createElement('div')
+    const PAUSE = `<div id="pause-play-btn" class="pause-btn">
+        <i class="fa-solid fa-pause"></i>
+      </div>`
+    const PREV = `<div id="prev-btn" class="next-prev-btn">
+        <i class="fa-solid fa-angle-left"></i>
+      </div>`
+    const NEXT = `<div id="next-btn" class="next-prev-btn">
+        <i class="fa-solid fa-angle-right"></i>
+      </div>`
+
+    controls.innerHTML = PREV + PAUSE + NEXT
+    controls.setAttribute('id', 'carousel-controls')
+    controls.setAttribute('class', 'carousel-controls')
+    this.container.appendChild(controls)
+
+    this.nextBtn = this.container.querySelector('#next-btn')
+    this.prevBtn = this.container.querySelector('#prev-btn')
+    this.pausePlayBtn = this.container.querySelector('#pause-play-btn')
+  },
+
+  _initDots() {
+    const dotsPanel = document.createElement('ul')
+    dotsPanel.setAttribute('id', 'carousel-dots')
+    dotsPanel.setAttribute('class', 'carousel-dots')
+
+    for (let i = 0; i < this.SLIDES_COUNT; i++) {
+      console.log(i)
+      const dot = document.createElement('li')
+      dot.setAttribute('class', i ? 'dot' : 'dot active')
+      dot.dataset.slideTo = `${i}`
+      dotsPanel.append(dot)
+    }
+    this.container.append(dotsPanel)
+    this.carouselDots = this.container.querySelector('#carousel-dots')
+    this.dots = this.carouselDots.querySelectorAll('.dot')
   },
 
   _gotoSlide(n) {
     this.slides[this.currentSlide].classList.toggle('active')
     this.dots[this.currentSlide].classList.toggle('active')
-    this.currentSlide = (n + this.slides.length) % this.slides.length
+    this.currentSlide = (n + this.SLIDES_COUNT) % this.SLIDES_COUNT
     this.slides[this.currentSlide].classList.toggle('active')
     this.dots[this.currentSlide].classList.toggle('active')
   },
+
   _prevSlide() {
     this._gotoSlide(this.currentSlide - 1)
   },
@@ -104,21 +133,10 @@ Carousel.prototype = {
 
   init() {
     this._initProps()
+    this._initControls()
+    this._initDots()
     this._initListenners()
     this._sliderAutoPlay()
   },
 }
 Carousel.prototype.constructor = Carousel
-
-
-
-
-
-
-
-
-
-
-
-
-

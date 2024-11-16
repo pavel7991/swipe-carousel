@@ -1,6 +1,5 @@
 function SwipeCarousel() {
   Carousel.apply(this, arguments)
-  //this.slidesContainer = this.container && this.container.querySelector('#carousel-container')
 }
 
 SwipeCarousel.prototype = Object.create(Carousel.prototype)
@@ -12,8 +11,6 @@ SwipeCarousel.prototype._initListenners = function () {
   this.container.addEventListener('mousedown', this.swipeStartHandler.bind(this))
   this.container.addEventListener('touchend', this.swipeEndHandler.bind(this))
   this.container.addEventListener('mouseup', this.swipeEndHandler.bind(this))
-  this.container.addEventListener('dragstart', this.swipeStartHandler.bind(this))
-  this.container.addEventListener('dragend', this.swipeEndHandler.bind(this))
 }
 
 SwipeCarousel.prototype.swipeStartHandler = function (e) {
