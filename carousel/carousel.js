@@ -9,6 +9,7 @@ class Carousel {
     this.isPlaying = settings.autoplay
     this.dotsPanel = settings.dotsPanel
     this.showBtnPlay = settings.showBtnPlay
+    this.animate = settings.animate
     this.isHovered = false
   }
 
@@ -20,15 +21,9 @@ class Carousel {
       autoplay: true,
       dotsPanel: true,
       showBtnPlay: true,
+      animate: false,
     }
-    // resultObj.containerID = objWithInnerParams.containerID || defaultSettings.containerID
-    // resultObj.slideClass = objWithInnerParams.slideClass || defaultSettings.slideClass
-    // resultObj.interval = objWithInnerParams.interval || defaultSettings.interval
     return { ...defaultSettings, ...objWithInnerParams }
-  }
-
-  _prefixedID(prefix) {
-    return `${prefix}-${this.nameID}`
   }
 
   _initProps() {
@@ -44,6 +39,24 @@ class Carousel {
     this.ICON_PREV = '<i class="fa-solid fa-angle-left"></i>'
     this.ICON_NEXT = '<i class="fa-solid fa-angle-right"></i>'
   }
+  _initClassElemets() {
+    this.animate
+      ? this.containerID.classList.add('carousel', `${this.animate}`)
+      : this.containerID.classList.add('carousel')
+
+    const containerSlides = document.createElement('div');
+    containerSlides.classList.add('slides-container');
+
+    this.slides.forEach(slide => {
+      slide.classList.add('slide')
+      containerSlides.appendChild(slide)
+    })
+    this.containerID.appendChild(containerSlides);
+  }
+
+  _prefixedID(prefix) {
+    return `${prefix}-${this.nameID}`
+  }
 
   _initControls() {
     const controls = document.createElement('div')
@@ -55,9 +68,8 @@ class Carousel {
     const PAUSE = this.showBtnPlay ? `<div id="${ID_PAUSE}" class="pause-btn">
         ${this.isPlaying ? this.ICON_PAUSE : this.ICON_PLAY}
       </div>` : ``;
-    const PREV = `<div id="${ID_PREV}" class="next-prev-btn">${this.ICON_PREV}</div>`
-    const NEXT = `<div id="${ID_NEXT}" class="next-prev-btn">${this.ICON_NEXT}</div>`
-
+    const PREV = `<div id="${ID_PREV}" class="controls-btn">${this.ICON_PREV}</div>`
+    const NEXT = `<div id="${ID_NEXT}" class="controls-btn">${this.ICON_NEXT}</div>`
 
     controls.innerHTML = PREV + PAUSE + NEXT
     controls.setAttribute('id', this._prefixedID('carousel-controls'))
@@ -107,13 +119,13 @@ class Carousel {
   pause() {
     if (!this.isPlaying) return
     clearInterval(this.timerId)
-    this.pausePlayBtn.innerHTML = this.ICON_PLAY
+    this.showBtnPlay && (this.pausePlayBtn.innerHTML = this.ICON_PLAY)
     this.isPlaying = false
   }
 
   play() {
     clearInterval(this.timerId);
-    this.pausePlayBtn.innerHTML = this.ICON_PAUSE
+    this.showBtnPlay && (this.pausePlayBtn.innerHTML = this.ICON_PAUSE)
     this.isPlaying = true
     this._sliderAutoPlay()
   }
@@ -166,6 +178,7 @@ class Carousel {
   }
 
   init() {
+    this._initClassElemets()
     this._initProps()
     this._initControls()
     this._initDots()
