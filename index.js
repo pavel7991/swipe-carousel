@@ -1,26 +1,23 @@
 import SwipeCarousel from './carousel/swipe-carousel.js'
 
-const carousel1 = new SwipeCarousel({
-  containerID: '#my-carousel',
-  slideClass: '.slide',
-})
+const carousel = new SwipeCarousel()
 
-const carousel2 = new SwipeCarousel({
-  containerID: '#my-carousel-2',
-  interval: 4000,
-  animate: 'parallax',
-})
-
-const carousel3 = new SwipeCarousel({
-  containerID: '#my-carousel-3',
+const parallaxCarousel = new SwipeCarousel({
+  containerID: '#parallax-carousel',
   slideClass: '.item',
+  animate: 'parallax',
+  interval: 4000,
+})
+
+const fadeScaleCarousel = new SwipeCarousel({
+  containerID: '#fade-scale-carousel',
   interval: 3000,
   animate: 'fade-scale',
   showBtnPlay: false,
 })
 
-const carousel4 = new SwipeCarousel({
-  containerID: '#my-carousel-4',
+const flipCarousel = new SwipeCarousel({
+  containerID: '#flip-carousel',
   animate: 'flip',
   showBtnPlay: false,
   dotsPanel: false,
@@ -28,7 +25,12 @@ const carousel4 = new SwipeCarousel({
 })
 
 
-carousel1.init()
-carousel2.init()
-carousel3.init()
-carousel4.init()
+carousel.init()
+parallaxCarousel.init()
+fadeScaleCarousel.init()
+flipCarousel.init()
+
+
+
+
+

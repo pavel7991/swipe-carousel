@@ -116,7 +116,7 @@
 .carousel .pause-btn {
   height: 40px;
   width: 40px;
-  border-radius: 8px;
+  border-radius: 50%;
   margin-top: auto;
   margin-bottom: 46px;
   display: flex;
@@ -134,6 +134,9 @@
 .carousel .pause-btn:hover {
   background-color: rgba(0, 0, 0, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.carousel .pause-btn .fa-solid:before {
+  margin-left: 2px;
 }
 
 /* --- carousel-dots --- */
